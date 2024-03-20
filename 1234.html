@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мои сайты</title>
+</head>
+<body>
+    <h2>Мои сайты</h2>
+    <ul id="siteList">
+        <!-- Список сайтов пользователя будет здесь -->
+    </ul>
+    <button onclick="redirectToCreateSite()">Выложить сайт</button>
+
+    <script>
+        // Массив для хранения данных о сайтах пользователя
+        var userSites = [
+            // Пример данных о сайте:
+            { name: "Мой первый сайт", content: "<h1>Привет, мир!</h1><p>Это мой первый сайт.</p>" }
+        ];
+
+        // Функция для отображения списка сайтов пользователя
+        function displayUserSites() {
+            var siteList = document.getElementById('siteList');
+            // Очищаем предыдущий список
+            siteList.innerHTML = '';
+
+            // Перебираем массив с данными о сайтах пользователя
+            userSites.forEach(function(site) {
+                var listItem = document.createElement('li');
+                listItem.textContent = site.name;
+                siteList.appendChild(listItem);
+            });
+        }
+
+        // Функция для перенаправления на страницу создания нового сайта
+        function redirectToCreateSite() {
+            // Формируем параметр URL с данными о выложенном сайте
+            var publishedSite = encodeURIComponent(JSON.stringify(userSites[userSites.length - 1]));
+            // Перенаправляем на страницу создания сайтов, передавая данные о сайте в качестве параметра
+            window.location.href = '123.html?publishedSite=' + publishedSite;
+        }
+
+        // После загрузки страницы загружаем список сайтов пользователя
+        window.onload = function() {
+            displayUserSites();
+        };
+    </script>
+</body>
+</html>

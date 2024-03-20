@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Выбор названия сайта</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        .button {
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Введите название вашего сайта</h2>
+        <input type="text" id="siteName" placeholder="Название сайта">
+        <button class="button" onclick="goToCreateSite()">Далее</button>
+    </div>
+
+    <script>
+        function goToCreateSite() {
+            var siteName = document.getElementById('siteName').value;
+            if (siteName.trim() === "") {
+                alert("Пожалуйста, введите название вашего сайта");
+            } else {
+                // Переход на страницу создания сайта с передачей названия сайта через параметры URL
+                window.location.href = 'index.html?siteName=' + encodeURIComponent(siteName);
+            }
+        }
+    </script>
+</body>
+</html>

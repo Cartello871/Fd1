@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Конструктор веб-сайтов</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            position: relative; /* Необходимо для абсолютного позиционирования */
+        }
+
+        #toolbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 200px;
+            background: #f0f0f0;
+            padding: 10px;
+            border-right: 1px solid #ccc;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        #canvas {
+            margin-left: 220px;
+            padding: 20px;
+        }
+
+        .block {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #ffffff;
+            border: 1px solid #000000;
+            cursor: pointer;
+        }
+
+        .block:hover {
+            background-color: #f0f0f0;
+        }
+
+        #confirmPublish {
+            display: none;
+            position: absolute; /* Позиционируем абсолютно */
+            bottom: 20px;
+            right: 20px;
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 9999;
+        }
+
+        #confirmPublish button {
+            margin: 10px;
+        }
+
+        .bottom-right-buttons {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+        }
+
+        .bottom-right-buttons button {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="toolbox">
+      <div class="block" onclick="addBlock('<header>Шапка</header>')">Шапка</div>
+      <div class="block" onclick="addBlock('<nav>Навигация</nav>')">Навигация</div>
+      <div class="block" onclick="addBlock('<section>Секция</section>')">Секция</div>
+      <div class="block" onclick="addBlock('<article>Статья</article>')">Статья</div>
+      <div class="block" onclick="addBlock('<footer>Подвал</footer>')">Подвал</div>
+      <div class="block" onclick="addBlock('<div>Произвольный блок</div>')">Произвольный блок</div>
+      <div class="block" onclick="addBlock('<div class=\'container\'>Контейнер</div>')">Контейнер</div>
+      <div class="block" onclick="addBlock('<div class=\'wrapper\'>Обертка</div>')">Обертка</div>
+      <div class="block" onclick="addBlock('<div class=\'row\'>Строка</div>')">Строка</div>
+      <div class="block" onclick="addBlock('<div class=\'col-4\'>Колонка 1</div>')">Колонка 1</div>
+      <div class="block" onclick="addBlock('<div class=\'col-4\'>Колонка 2</div>')">Колонка 2</div>
+      <div class="block" onclick="addBlock('<div class=\'col-4\'>Колонка 3</div>')">Колонка 3</div>
+      <div class="block" onclick="addBlock('<img src=\'https://via.placeholder.com/150\'>')">Изображение</div>
+      <div class="block" onclick="addBlock('<p>Параграф</p>')">Параграф</div>
+      <div class="block" onclick="addBlock('<h1>Заголовок 1</h1>')">Заголовок 1</div>
+      <div class="block" onclick="addBlock('<h2>Заголовок 2</h2>')">Заголовок 2</div>
+      <div class="block" onclick="addBlock('<h3>Заголовок 3</h3>')">Заголовок 3</div>
+      <div class="block" onclick="addBlock('<h4>Заголовок 4</h4>')">Заголовок 4</div>
+      <div class="block" onclick="addBlock('<h5>Заголовок 5</h5>')">Заголовок 5</div>
+      <div class="block" onclick="addBlock('<h6>Заголовок 6</h6>')">Заголовок 6</div>
+    </div>
+
+    <div id="canvas" contenteditable="true"></div>
+
+    <div class="bottom-right-buttons">
+        <button onclick="showPreview()">Предварительный просмотр</button>
+        <button onclick="confirmPublish()">Выложить сайт</button>
+    </div>
+
+    <div id="confirmPublish">
+        <p>Хотите выложить свой сайт?</p>
+        <input type="text" id="siteName" placeholder="Введите название сайта">
+        <button onclick="publish()">Да</button>
+        <button onclick="cancelPublish()">Нет</button>
+    </div>
+    <button onclick="confirmSave()">Назад</button>
+
+    <script>
+        function addBlock(content) {
+            var canvas = document.getElementById('canvas');
+            var block = document.createElement('div');
+            block.innerHTML = content;
+            canvas.appendChild(block);
+        }
+
+        function showPreview() {
+            var canvasContent = document.getElementById('canvas').innerHTML;
+            var newWindow = window.open();
+            newWindow.document.write('<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Мой сайт</title></head><body>' + canvasContent + '</body></html>');
+        }
+
+        function confirmPublish() {
+            document.getElementById('confirmPublish').style.display = 'block';
+        }
+
+        function cancelPublish() {
+            document.getElementById('confirmPublish').style.display = 'none';
+        }
+
+        function publish() {
+            var siteName = document.getElementById('siteName').value;
+            var canvasContent = document.getElementById('canvas').innerHTML;
+            // Создание временного ссылочного элемента для скачивания HTML файла
+            var element = document.createElement('a');
+            element.setAttribute('href', 'data:text/html;charset=utf-8,' + encodeURIComponent('<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>' + siteName + '</title></head><body>' + canvasContent + '</body></html>'));
+            element.setAttribute('download', siteName + '.html');
+            element.style.display = 'none';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+            // Перенаправление пользователя на созданный файл
+            window.location.href = siteName + '.html';
+        }
+            // Получаем название сайта из параметров URL
+            var params = new URLSearchParams(window.location.search);
+            var siteName = params.get('siteName');
+            // Выводим название сайта на странице
+            document.getElementById('siteName').innerText = siteName;
+
+            function confirmSave() {
+       var confirmSave = confirm("Хотите сохранить изменения?");
+       if (confirmSave) {
+           saveSite(); // Функция сохранения сайта
+       } else {
+           // Перенаправление на страницу "Мои сайты"
+           window.location.href = 'my_sites.html';
+       }
+   }
+
+   function saveSite() {
+       // Реализуйте сохранение сайта
+       // После успешного сохранения перенаправьте на страницу "Мои сайты"
+       window.location.href = '1234.html';
+   }
+    </script>
+</body>
+</html>

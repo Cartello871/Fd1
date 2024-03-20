@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Главное меню</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .menu {
+            text-align: center;
+        }
+
+        .menu button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .menu button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Стили для окна регистрации */
+        .registration-container {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 9999;
+        }
+
+        .registration-container label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .registration-container input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        .registration-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="menu">
+            <button onclick="showRegistration()">Регистрация</button>
+        </div>
+    </div>
+
+    <!-- Окно регистрации -->
+    <div class="registration-container" id="registrationContainer">
+        <h2>Регистрация</h2>
+        <form id="registrationForm">
+            <label for="username">Имя пользователя:</label>
+            <input type="text" id="username" name="username" required>
+            <label for="password">Пароль:</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit">Зарегистрироваться</button>
+        </form>
+    </div>
+
+    <script>
+        function showRegistration() {
+            document.getElementById('registrationContainer').style.display = 'block';
+        }
+
+        document.getElementById('registrationForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+
+            // Отправка данных на сервер для регистрации (в этом примере это пропущено)
+            // После успешной регистрации можно перенаправить пользователя на страницу создания сайта
+            // Вместо этого здесь просто скрываем окно регистрации
+            document.getElementById('registrationContainer').style.display = 'none';
+            alert('Регистрация успешно завершена!');
+
+            // Перенаправление на страницу создания сайта (замените ссылку на соответствующую)
+            window.location.href = '1234.html';
+        });
+    </script>
+</body>
+</html>
